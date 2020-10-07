@@ -7,4 +7,22 @@ class PostsController < ApplicationController
     Post.create(content: params[:content])
     redirect_to action: :index # メモを保存した後にトップページへリダイレクトされるように追記
   end
+
+  def checked
+    post = Post.find(params[:id]) 
+    # URLパラメーターから、既読したメモのidが渡されるように設定するので、
+    # そのidを使用して該当するレコードを取得している
+    if post.checked 
+      post.update(checked: false)
+    else
+      post.update(checked: true)
+    end
+    # post.checkedという既読であるか否かを判定するプロパティを指定し、
+    # 既読であれば「既読を解除するためにfalseへ変更」し、既読でなければ「既読にするためtrueへ変更」します。
+    # updateというActiveRecordのメソッドを使用して更新している
+    item = Post.find(params[:id])
+    render json: { post: item }
+    # 更新したレコードをitem = Post.find(params[:id])で取得し直し、
+    # render json:{ post: item }でJSON形式（データ）としてchecked.jsに返却
+  end
 end
