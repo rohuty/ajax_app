@@ -9,6 +9,7 @@ class PostsController < ApplicationController
   end
 
   def checked
+    
     post = Post.find(params[:id]) 
     # URLパラメーターから、既読したメモのidが渡されるように設定するので、
     # そのidを使用して該当するレコードを取得している
